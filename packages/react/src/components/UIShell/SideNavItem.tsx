@@ -10,12 +10,34 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { usePrefix } from '../../internal/usePrefix';
 
-function SideNavItem({ className: customClassName, children, large = false }) {
+export interface SideNavMenuItemProps {
+  /**
+   * Provide a single icon as the child to `SideNavItem` to render in the
+   * container
+   */
+  children?: React.ReactNode;
+
+  /**
+   * Provide an optional class to be applied to the containing node
+   */
+  className?: string;
+
+  /**
+   * Specify if this is a large variation of the SideNavItem
+   */
+  large?: boolean;
+}
+
+function SideNavItem({
+  className: customClassName,
+  children,
+  large = false,
+}: SideNavMenuItemProps) {
   const prefix = usePrefix();
   const className = cx({
     [`${prefix}--side-nav__item`]: true,
     [`${prefix}--side-nav__item--large`]: large,
-    [customClassName]: !!customClassName,
+    ...(customClassName ? { [customClassName]: true } : {}),
   });
   return <li className={className}>{children}</li>;
 }
